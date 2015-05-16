@@ -10,15 +10,15 @@ public class TBrick extends Brick {
         private static final boolean[][][] VARIANTS = {
         {
             {true,  true,  true },
-            {false, true,  false}
+            {false, true}
         },
         {
-            {true,  false},
-            {true,  true },
-            {true,  false}
+            {true},
+            {true, true},
+            {true}
         },
         {
-            {false, true,  false},
+            {false, true},
             {true,  true,  true }
         },
         {
