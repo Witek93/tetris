@@ -1,21 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tetris;
 
-/**
- *
- * @author Wit
- */
+import tetris.model.bricks.Brick;
+import tetris.model.bricks.TBrick;
+
+
 public class Tetris {
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
-        // TODO code application logic here
+        Brick brick = new TBrick();
+        
+        System.out.println(brick); // brak rotacji
+        
+        brick.rotate();
+        System.out.println(brick); // rotacja 90 stopni
+        
+        brick.rotate();
+        System.out.println(brick); // rotacja 180 stopni
+        
+        brick.rotate();
+        System.out.println(brick); // rotacja 270 stopni
     }
     
 }
