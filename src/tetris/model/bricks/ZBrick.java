@@ -13,9 +13,9 @@ public class ZBrick extends Brick{
             {false, true,  true},
         },     
         {
-            {false, false, true},
-            {false, true,  true},
-            {false, true}
+            {false, true},
+            {true,  true},
+            {true}
         },
     };
 }

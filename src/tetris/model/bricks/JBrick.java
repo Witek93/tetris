@@ -9,9 +9,9 @@ public class JBrick extends Brick{
     
     private static final boolean[][][] VARIANTS = {
         {
-            {false, false, true},
-            {false, false, true},
-            {false, true,  true}
+            {false, true},
+            {false, true},
+            {true,  true}
         },     
         {
             {true, true,  true},
