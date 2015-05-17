@@ -1,25 +1,30 @@
 package tetris;
 
-import tetris.model.bricks.Brick;
-import tetris.model.bricks.TBrick;
+import java.awt.Color;
+import tetris.model.GameBoard;
 
 
 public class Tetris {
 
 
-    public static void main(String[] args) {
-        Brick brick = new TBrick();
+    public static void main(String[] args) throws InterruptedException {
+
+        GameBoard game = new GameBoard(5, 10);
         
-        System.out.println(brick); // brak rotacji
+        game.defaultLayer.setField(2, 9, Color.yellow);
         
-        brick.rotate();
-        System.out.println(brick); // rotacja 90 stopni
+        game.activeLayer.setField(1, 0, Color.yellow);
+        game.activeLayer.setField(1, 1, Color.yellow);
+        game.activeLayer.setField(2, 0, Color.yellow);
+        game.activeLayer.setField(0, 1, Color.yellow);
         
-        brick.rotate();
-        System.out.println(brick); // rotacja 180 stopni
         
-        brick.rotate();
-        System.out.println(brick); // rotacja 270 stopni
+        
+        while(game.moveDownActiveBoard()) {
+            Thread.sleep(1000);
+            System.out.println(game);
+        }
+
     }
     
 }
