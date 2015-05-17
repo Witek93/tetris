@@ -35,6 +35,19 @@ public class Layer {
         }
     }
     
+    public void amendWith(Layer layer) {
+        if(hasEqualSizeWith(layer)) {
+            for(int i = 0; i < getRowsCount(); i++) {
+                for(int j = 0; j < getColumnsCount(); j++) {
+                    Color field = layer.getField(i,j);
+                    if(isFullField(field)) {
+                        setField(i, j, field);
+                    }
+                }
+            }
+        }
+    }
+    
     /*
     returns false when some colors of two layers are overlapping each other.
     returns false when layers' sizes are not equal
@@ -65,6 +78,7 @@ public class Layer {
 
     public Layer getMovedDownLayer() {
         Layer layer = new Layer(this.getRowsCount(), this.getColumnsCount());
+        
         for(int i = 0; i < this.getRowsCount() - 1; i++) {
             for(int j = 0; j < this.getColumnsCount(); j++) {
                 Color current = this.getField(i,j);
@@ -74,6 +88,15 @@ public class Layer {
             }
         }
         return layer;
+    }
+
+    public boolean isOnBottom() {
+        for(Color field: fields[getRowsCount() - 1]) {
+            if(isFullField(field)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     @Override

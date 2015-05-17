@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.Color;
 import tetris.model.GameBoard;
+import tetris.model.Layer;
 
 
 public class Tetris {
@@ -18,11 +19,17 @@ public class Tetris {
         game.activeLayer.setField(2, 1, Color.yellow);
         game.activeLayer.setField(0, 2, Color.yellow);
         
-        
-        while(game.moveDownActiveBoard()) {
-            Thread.sleep(1000);
-            System.out.println(game);
+        for(int i = 0; i < 6; i++) {
+            while(game.moveDownActiveBoard()) {
+                Thread.sleep(300);
+                System.out.println(game);
+            }
+            
+            game.activeLayer = new Layer(10, 5);
+            game.activeLayer.setField(0, i, Color.red);
+            
         }
+        
 
     }
     

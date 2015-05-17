@@ -12,12 +12,20 @@ public class GameBoard {
     }
     
     public boolean moveDownActiveBoard() {
-        Layer layer = activeLayer.getMovedDownLayer();
-        if(layer.overlapsWith(defaultLayer)) {
+        if(activeLayer.isOnBottom()) {
+            defaultLayer.amendWith(activeLayer);
             return false;
+        } else {
+            Layer layer = activeLayer.getMovedDownLayer();
+
+            if(layer.overlapsWith(defaultLayer)) {
+                defaultLayer.amendWith(activeLayer);
+                return false;
+            } else {
+                activeLayer = layer;
+                return true;
+            }
         }
-        activeLayer = layer;
-        return true;
     }
 
     @Override
@@ -34,12 +42,7 @@ public class GameBoard {
             }
             sb.append('\n');
         }
-        
         return sb.toString();
     }
-    
-    
-    
-    
     
 }
