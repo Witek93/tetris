@@ -1,14 +1,20 @@
 package tetris.model;
 
 import java.awt.Color;
+import java.util.Random;
+import tetris.model.bricks.Brick;
 
 
 public class GameBoard {
     public Layer activeLayer, defaultLayer;
+    private Brick currentBrick;
+    private final Random randomGen;
 
     public GameBoard(int rowCount, int columnCount) {
         this.defaultLayer = new Layer(rowCount, columnCount);
         this.activeLayer = new Layer(rowCount, columnCount);
+        this.currentBrick = null;
+        this.randomGen = new Random();
     }
     
     public boolean moveDownActiveBoard() {
@@ -26,6 +32,19 @@ public class GameBoard {
                 return true;
             }
         }
+    }
+    
+    public void generateNewBrick() {
+        currentBrick = BrickFactory.create();
+        activeLayer.reset();
+        activeLayer.put(currentBrick.getVariant(), getRandomColor());
+    }
+    
+    public Color getRandomColor() {
+        int red = randomGen.nextInt(256);
+        int green = randomGen.nextInt(256);
+        int blue = randomGen.nextInt(256);
+        return new Color(red, green, blue);
     }
 
     @Override
