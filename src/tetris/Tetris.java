@@ -9,15 +9,14 @@ public class Tetris {
 
     public static void main(String[] args) throws InterruptedException {
 
-        GameBoard game = new GameBoard(5, 10);
+        GameBoard game = new GameBoard(10, 5);
         
-        game.defaultLayer.setField(2, 9, Color.yellow);
+        game.defaultLayer.setField(9, 2, Color.yellow);
         
-        game.activeLayer.setField(1, 0, Color.yellow);
         game.activeLayer.setField(1, 1, Color.yellow);
-        game.activeLayer.setField(2, 0, Color.yellow);
-        game.activeLayer.setField(0, 1, Color.yellow);
-        
+        game.activeLayer.setField(1, 2, Color.yellow);
+        game.activeLayer.setField(2, 1, Color.yellow);
+        game.activeLayer.setField(0, 2, Color.yellow);
         
         
         while(game.moveDownActiveBoard()) {
