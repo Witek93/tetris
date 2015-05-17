@@ -9,17 +9,17 @@ public class TBrick extends Brick {
     }
         private static final boolean[][][] VARIANTS = {
         {
-            {true,  true,  true },
-            {false, true}
+            {true,  true,  true},
+            {false, true, false}
         },
         {
-            {true},
-            {true, true},
-            {true}
+            {true, false},
+            {true, true },
+            {true, false}
         },
         {
-            {false, true},
-            {true,  true,  true }
+            {false, true, false},
+            {true,  true, true }
         },
         {
             {false, true},

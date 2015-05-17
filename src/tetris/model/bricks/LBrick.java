@@ -9,8 +9,8 @@ public class LBrick extends Brick{
     
     private static final boolean[][][] VARIANTS = {
         {
-            {true},
-            {true},
+            {true, false},
+            {true, false},
             {true, true}
         },     
         {

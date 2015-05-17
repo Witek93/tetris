@@ -9,13 +9,13 @@ public class ZBrick extends Brick{
     
     private static final boolean[][][] VARIANTS = {
         {
-            {true,  true},
-            {false, true,  true},
+            {true,  true, false},
+            {false, true, true },
         },     
         {
-            {false, true},
-            {true,  true},
-            {true}
+            {false, true },
+            {true,  true },
+            {true,  false}
         },
     };
 }

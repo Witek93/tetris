@@ -9,13 +9,13 @@ public class SBrick extends Brick{
     
     private static final boolean[][][] VARIANTS = {
         {
-            {false, true, true},
-            {true,  true}
+            {false, true, true },
+            {true,  true, false}
         },     
         {
-            {false, true},
-            {true,  true},
-            {true}
+            {false, true },
+            {true,  true },
+            {true,  false}
         },
     };
 }

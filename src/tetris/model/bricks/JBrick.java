@@ -18,9 +18,9 @@ public class JBrick extends Brick{
             {false,false, true}
         },
         {
-            {true, true},
-            {true},
-            {true}
+            {true, true },
+            {true, false},
+            {true, false}
         },
         {
             {true},
