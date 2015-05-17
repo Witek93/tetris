@@ -5,12 +5,13 @@ import java.awt.Color;
 
 public class Layer {
     private final Color[][] fields;
+    private static final Color defaultColor = Color.white;
     
     public Layer(int rowsCount, int columnsCount) {
         this.fields = new Color[rowsCount][columnsCount];
         for(int i = 0; i < rowsCount; i++) {
             for(int j = 0; j < columnsCount; j++) {
-                this.fields[i][j] = Color.white;
+                this.fields[i][j] = defaultColor;
             }
         }
     }
@@ -59,7 +60,7 @@ public class Layer {
     }
     
     private boolean isFullField(Color color) {
-        return color != Color.white;
+        return color != defaultColor;
     }
 
     public Layer getMovedDownLayer() {
@@ -112,10 +113,6 @@ public class Layer {
         }
         return true;
     }
-    
-
-    
-    
     
 
 }
