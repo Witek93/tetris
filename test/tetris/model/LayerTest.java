@@ -35,6 +35,22 @@ public class LayerTest {
         instance.setField(9, 4, Color.yellow);
         assertTrue(instance.getField(9,4) == Color.yellow);
     }
+    
+    @Test
+    public void testSetFieldWithTooHighValue() {
+        Layer instance = new Layer(10, 5);
+        instance.setField(100, 200, Color.green);
+        Layer expResult = new Layer(10, 5);
+        assertEquals(instance, expResult);
+    }  
+    
+    @Test
+    public void testSetFieldWithTooLowValue() {
+        Layer instance = new Layer(10, 5);
+        instance.setField(-100, -200, Color.green);
+        Layer expResult = new Layer(10, 5);
+        assertEquals(instance, expResult);
+    }  
 
     @Test
     public void testOverlapsWithEmptyLayers() {

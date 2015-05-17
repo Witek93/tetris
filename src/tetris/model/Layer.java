@@ -28,7 +28,8 @@ public class Layer {
     }
     
     public void setField(int row, int column, Color newColor) {
-        if(row >= 0 && column >= 0) {
+        if(row >= 0 && row < getRowsCount() && 
+                column >= 0 && column < getColumnsCount()) {
             this.fields[row][column] = newColor;
         }
     }
