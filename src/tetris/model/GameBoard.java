@@ -17,21 +17,25 @@ public class GameBoard {
         this.randomGen = new Random();
     }
     
-    public boolean moveDownActiveBoard() {
+    public boolean tryToMoveDown() {
         if(activeLayer.isOnBottom()) {
-            defaultLayer.amendWith(activeLayer);
+            mergeLayers();
             return false;
         } else {
             Layer layer = activeLayer.getMovedDownLayer();
 
             if(layer.overlapsWith(defaultLayer)) {
-                defaultLayer.amendWith(activeLayer);
+                mergeLayers();
                 return false;
             } else {
                 activeLayer = layer;
                 return true;
             }
         }
+    }
+    
+    private void mergeLayers() {
+        defaultLayer.amendWith(activeLayer);
     }
     
     public void generateNewBrick() {

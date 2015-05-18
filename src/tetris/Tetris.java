@@ -17,9 +17,13 @@ public class Tetris {
         for(int i = 0; i < 6; i++) {
             game.generateNewBrick();
             
-            while(game.moveDownActiveBoard()) {
+            while(game.tryToMoveDown()) {
                 Thread.sleep(500);
                 System.out.println(game);
+            }
+            if(game.activeLayer.isOnTop()) {
+                System.out.println("Gra zakończona!");
+                break;
             }
             
         }

@@ -118,6 +118,15 @@ public class Layer {
         }
         return false;
     }
+    
+    public boolean isOnTop() {
+        for (Color field : fields[0]) {
+            if (isFullField(field)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
