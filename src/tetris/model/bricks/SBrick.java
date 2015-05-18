@@ -1,5 +1,7 @@
 package tetris.model.bricks;
 
+import java.awt.Color;
+
 public class SBrick extends Brick{
 
     @Override
@@ -18,4 +20,9 @@ public class SBrick extends Brick{
             {true,  false}
         },
     };
+    
+    @Override
+    Color getColors() {
+        return new Color(195, 176, 145);
+    }
 }
