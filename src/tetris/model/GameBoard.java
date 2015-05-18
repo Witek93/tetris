@@ -49,14 +49,7 @@ public class GameBoard {
     public void generateNewBrick() {
         currentBrick = BrickFactory.create();
         activeLayer.reset();
-        activeLayer.put(currentBrick.getVariant(), getRandomColor());
-    }
-    
-    public Color getRandomColor() {
-        int red = randomGen.nextInt(256);
-        int green = randomGen.nextInt(256);
-        int blue = randomGen.nextInt(256);
-        return new Color(red, green, blue);
+        activeLayer.put(currentBrick.getVariant(), currentBrick.getColor());
     }
     
     public Color getColorOf(int row, int column) {
