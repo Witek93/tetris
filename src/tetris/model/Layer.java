@@ -58,7 +58,6 @@ public class Layer {
 
     public void put(boolean[][] blocks, Color blockColor) {
         int columnShift = (getColumnsCount() - blocks[0].length) / 2;
-        System.out.println(blocks.length + ", " + blocks[0].length);
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[0].length; j++) {
                 if (blocks[i][j]) {
@@ -92,7 +91,7 @@ public class Layer {
                 && getColumnsCount() == layer.getColumnsCount();
     }
 
-    private boolean isFullField(Color color) {
+    public static boolean isFullField(Color color) {
         return color != defaultColor;
     }
 

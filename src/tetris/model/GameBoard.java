@@ -50,6 +50,15 @@ public class GameBoard {
         int blue = randomGen.nextInt(256);
         return new Color(red, green, blue);
     }
+    
+    public Color getColorOf(int row, int column) {
+        Color color = defaultLayer.getField(row, column);
+        if(Layer.isFullField(color)) {
+            return color;
+        } else {
+            return activeLayer.getField(row, column);
+        }
+    }
 
     @Override
     public String toString() {
