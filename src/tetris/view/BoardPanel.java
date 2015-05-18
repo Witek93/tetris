@@ -1,13 +1,13 @@
 package tetris.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 
 public class BoardPanel extends JPanel {
+    private static final Color DEFAULT_COLOR = Color.white;
+    
     private final JPanel fieldsPanel;
     private final JPanel[][] fields;
     
@@ -22,7 +22,7 @@ public class BoardPanel extends JPanel {
         for(int i = 0; i < rowsCount; i++) {
             for(int j = 0; j < columnsCount; j++) {
                 fields[i][j] = new JPanel();
-                fields[i][j].setBackground(Color.white);
+                fields[i][j].setBackground(DEFAULT_COLOR);
                 fieldsPanel.add(fields[i][j]);
             }
         }
@@ -30,6 +30,10 @@ public class BoardPanel extends JPanel {
     
     public void updateField(int row, int column, Color color) {
         getField(row,column).setBackground(color);
+    }
+    
+    public void resetField(int row, int column) {
+        getField(row, column).setBackground(DEFAULT_COLOR);
     }
     
     private JPanel getField(int row, int column) {

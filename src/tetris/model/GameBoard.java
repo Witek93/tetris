@@ -1,20 +1,17 @@
 package tetris.model;
 
 import java.awt.Color;
-import java.util.Random;
 import tetris.model.bricks.Brick;
 
 
 public class GameBoard {
     private Layer activeLayer, defaultLayer;
-    private Brick currentBrick;
-    private final Random randomGen;
+    private Brick nextBrick;
 
     public GameBoard(int rowCount, int columnCount) {
         this.defaultLayer = new Layer(rowCount, columnCount);
         this.activeLayer = new Layer(rowCount, columnCount);
-        this.currentBrick = null;
-        this.randomGen = new Random();
+        this.nextBrick = BrickFactory.create();
     }
     
     public int getRowsCount() {
@@ -43,13 +40,24 @@ public class GameBoard {
     }
     
     private void mergeLayers() {
-        defaultLayer.amendWith(activeLayer);
+        defaultLayer.append(activeLayer);
     }
     
     public void generateNewBrick() {
-        currentBrick = BrickFactory.create();
         activeLayer.reset();
-        activeLayer.put(currentBrick.getVariant(), currentBrick.getColor());
+        activeLayer.put(nextBrick.getVariant(), nextBrick.getColor());
+        
+        //generujemy nowy bloczek po dodaniu poprzedniego, aby móc wyświetlić
+        //go w panelu "Next"
+        nextBrick = BrickFactory.create();
+    }
+    
+    public boolean[][] getNextBrick() {
+        return nextBrick.getVariant();
+    }
+    
+    public Color getNextColor() {
+        return nextBrick.getColor();
     }
     
     public Color getColorOf(int row, int column) {
@@ -63,23 +71,6 @@ public class GameBoard {
     
     public boolean isGameOver() {
         return activeLayer.isOnTop();
-    }
-
-    @Override
-    public String toString() {
-                StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < defaultLayer.getRowsCount(); i++) {
-            for(int j = 0; j < defaultLayer.getColumnsCount(); j++) {
-                if(defaultLayer.getField(i,j) != Color.white 
-                        || activeLayer.getField(i,j) != Color.white) {
-                    sb.append('X');
-                } else {
-                    sb.append('-');
-                }
-            }
-            sb.append('\n');
-        }
-        return sb.toString();
     }
     
 }

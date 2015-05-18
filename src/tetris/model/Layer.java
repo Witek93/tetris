@@ -35,7 +35,7 @@ public class Layer {
         }
     }
 
-    public void amendWith(Layer layer) {
+    public void append(Layer layer) {
         if (hasEqualSizeWith(layer)) {
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = 0; j < getColumnsCount(); j++) {
@@ -125,23 +125,6 @@ public class Layer {
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Color[] row : fields) {
-            for (Color field : row) {
-                if (isFullField(field)) {
-                    sb.append('X');
-                } else {
-                    sb.append('-');
-                }
-            }
-            sb.append('\n');
-        }
-
-        return sb.toString();
     }
 
     @Override
