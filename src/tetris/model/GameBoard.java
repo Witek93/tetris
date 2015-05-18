@@ -6,7 +6,7 @@ import tetris.model.bricks.Brick;
 
 
 public class GameBoard {
-    public Layer activeLayer, defaultLayer;
+    private Layer activeLayer, defaultLayer;
     private Brick currentBrick;
     private final Random randomGen;
 
@@ -15,6 +15,14 @@ public class GameBoard {
         this.activeLayer = new Layer(rowCount, columnCount);
         this.currentBrick = null;
         this.randomGen = new Random();
+    }
+    
+    public int getRowsCount() {
+        return defaultLayer.getRowsCount();
+    }
+    
+    public int getColumnsCount() {
+        return defaultLayer.getColumnsCount();
     }
     
     public boolean tryToMoveDown() {
@@ -58,6 +66,10 @@ public class GameBoard {
         } else {
             return activeLayer.getField(row, column);
         }
+    }
+    
+    public boolean isGameOver() {
+        return activeLayer.isOnTop();
     }
 
     @Override
