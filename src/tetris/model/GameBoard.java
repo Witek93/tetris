@@ -39,6 +39,14 @@ public class GameBoard {
         }
     }
     
+    public int tryToDestroyLines() {
+        int destroyedLines = 0;
+        while(defaultLayer.tryToDestroyLine()) {
+            destroyedLines++;
+        }
+        return destroyedLines;
+    }
+    
     private void mergeLayers() {
         defaultLayer.append(activeLayer);
     }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,8 +29,7 @@ public class GameFrame extends JFrame {
         setMinimumSize(new Dimension(500, 500));
         
         this.score = createBigLabel("0");
-        this.linesDestroyed = createBigLabel("0");
-        
+        this.linesDestroyed = createBigLabel("0"); 
         this.startButton = new JButton("START");
         this.pauseButton = new JButton("PAUSE");
 
@@ -44,7 +44,6 @@ public class GameFrame extends JFrame {
         eastPanel.setPreferredSize(new Dimension(300, 600));
         add(eastPanel, BorderLayout.EAST);
 
-
         this.nextPanel = createNextPanel();
         this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);
         nextPanel.add(nextBoard, BorderLayout.CENTER);
@@ -55,8 +54,29 @@ public class GameFrame extends JFrame {
 
         this.optionPanel = createOptionPanel();
         eastPanel.add(optionPanel);
-
     }
+    
+    
+    public void addScore(int value) {
+        long currentScore = Long.parseLong(score.getText());
+        long newScore = currentScore + value;
+        score.setText(String.valueOf(newScore));
+    }
+    
+    public void addDestroyedLines(int value) {
+        long currentLines = Long.parseLong(linesDestroyed.getText());
+        long totalLinesDestroyed = currentLines + value;
+        linesDestroyed.setText(String.valueOf(totalLinesDestroyed));
+    }
+    
+    public void addStartListener(ActionListener listener) {
+        startButton.addActionListener(listener);
+    }
+    
+    public void addPauseListener(ActionListener listener) {
+        pauseButton.addActionListener(listener);
+    }
+    
 
     private JPanel createNextPanel() {
         JPanel panel = new JPanel();

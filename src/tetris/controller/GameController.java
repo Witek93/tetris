@@ -1,6 +1,7 @@
 package tetris.controller;
 
 import java.awt.Color;
+import java.util.Random;
 import tetris.model.GameBoard;
 import tetris.view.GameFrame;
 
@@ -16,16 +17,27 @@ public class GameController {
     public void start() throws InterruptedException {
         while (!board.isGameOver()) {
 
-            board.generateNewBrick();
-            updateNext();
-
+            destroyLines();
+            generateNewBrick();
+            
             while (board.tryToMoveDown()) {
-                Thread.sleep(50);
-
+                Thread.sleep(500);
                 updateBoard();
             }
         }
         frame.gameOverAlert();
+    }
+
+    private void destroyLines() {
+        int destroyedLines = board.tryToDestroyLines();
+        frame.addScore(destroyedLines * 1000);
+        frame.addDestroyedLines(destroyedLines);
+    }
+    
+    private void generateNewBrick() {
+        board.generateNewBrick();
+        frame.addScore(50);
+        frame.updateNextField(board.getNextBrick(), board.getNextColor());
     }
 
     private void updateBoard() {
@@ -35,10 +47,6 @@ public class GameController {
                 frame.updateBoardField(i, j, color);
             }
         }
-    }
-    
-    private void updateNext() {
-        frame.updateNextField(board.getNextBrick(), board.getNextColor());
     }
 
 }

@@ -66,6 +66,36 @@ public class Layer {
             }
         }
     }
+    
+    public boolean tryToDestroyLine() {
+        for(int i = 0; i < getRowsCount(); i++) {
+            if(shouldBeDestroyed(i)) {
+                destroyLine(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean shouldBeDestroyed(int row) {
+        for(Color field: fields[row]) {
+            if(!isFullField(field)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void destroyLine(int row) {
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < getColumnsCount(); j++) {
+                fields[i+1][j] = fields[i][j];
+            }
+        }
+        for(int i = 0; i < getColumnsCount(); i++) {
+            fields[0][i] = defaultColor;
+        }
+    }
 
     /*
      returns false when some colors of two layers are overlapping each other.
