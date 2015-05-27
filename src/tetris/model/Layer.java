@@ -193,15 +193,16 @@ public class Layer {
     }
 
     public Layer getMovedRight() {
-        Layer moved = new Layer(getRowsCount(), getColumnsCount());
         if (canMoveRight()) {
+            Layer moved = new Layer(getRowsCount(), getColumnsCount());
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = getColumnsCount() - 1; j >= 0; j--) {
                     moved.setField(i, j + 1, this.getField(i, j));
                 }
             }
+            return moved;
         }
-        return moved;
+        return this;
     }
 
     public boolean canMoveRight() {
@@ -214,15 +215,16 @@ public class Layer {
     }
 
     public Layer getMovedLeft() {
-        Layer moved = new Layer(getRowsCount(), getColumnsCount());
         if (canMoveLeft()) {
+            Layer moved = new Layer(getRowsCount(), getColumnsCount());
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = 1; j < getColumnsCount(); j++) {
                     moved.setField(i, j - 1, getField(i, j));
                 }
             }
+            return moved;
         }
-        return moved;
+        return this;
     }
 
     public boolean canMoveLeft() {
