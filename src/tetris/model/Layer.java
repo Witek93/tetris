@@ -25,23 +25,32 @@ public class Layer {
     }
 
     public Color getField(int row, int column) {
-        return this.fields[row][column];
+        if (isValidRow(row) && isValidColumn(column)) {
+            return this.fields[row][column];
+        }
+        return null;
     }
 
     public void setField(int row, int column, Color newColor) {
-        if (row >= 0 && row < getRowsCount()
-                && column >= 0 && column < getColumnsCount()) {
+        if (isValidRow(row) && isValidColumn(column)) {
             this.fields[row][column] = newColor;
         }
+    }
+
+    private boolean isValidRow(int row) {
+        return row >= 0 && row < getRowsCount();
+    }
+
+    private boolean isValidColumn(int column) {
+        return column >= 0 && column < getColumnsCount();
     }
 
     public void append(Layer layer) {
         if (hasEqualSizeWith(layer)) {
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = 0; j < getColumnsCount(); j++) {
-                    Color field = layer.getField(i, j);
-                    if (isFullField(field)) {
-                        setField(i, j, field);
+                    if (layer.isFullField(i, j)) {
+                        setField(i, j, layer.getField(i, j));
                     }
                 }
             }
@@ -66,33 +75,33 @@ public class Layer {
             }
         }
     }
-    
+
     public boolean tryToDestroyLine() {
-        for(int i = 0; i < getRowsCount(); i++) {
-            if(shouldBeDestroyed(i)) {
+        for (int i = 0; i < getRowsCount(); i++) {
+            if (isLineOfFullFields(i)) {
                 destroyLine(i);
                 return true;
             }
         }
         return false;
     }
-    
-    private boolean shouldBeDestroyed(int row) {
-        for(Color field: fields[row]) {
-            if(!isFullField(field)) {
+
+    private boolean isLineOfFullFields(int row) {
+        for (int i = 0; i < getColumnsCount(); i++) {
+            if (!isFullField(row, i)) {
                 return false;
             }
         }
         return true;
     }
-    
+
     private void destroyLine(int row) {
-        for(int i = 0; i < row; i++) {
-            for(int j = 0; j < getColumnsCount(); j++) {
-                fields[i+1][j] = fields[i][j];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < getColumnsCount(); j++) {
+                fields[i + 1][j] = fields[i][j];
             }
         }
-        for(int i = 0; i < getColumnsCount(); i++) {
+        for (int i = 0; i < getColumnsCount(); i++) {
             fields[0][i] = defaultColor;
         }
     }
@@ -108,7 +117,7 @@ public class Layer {
 
         for (int i = 0; i < this.getRowsCount(); i++) {
             for (int j = 0; j < this.getColumnsCount(); j++) {
-                if (isFullField(this.getField(i, j)) && isFullField(layer.getField(i, j))) {
+                if (this.isFullField(i, j) && layer.isFullField(i, j)) {
                     return true;
                 }
             }
@@ -121,18 +130,20 @@ public class Layer {
                 && getColumnsCount() == layer.getColumnsCount();
     }
 
-    public static boolean isFullField(Color color) {
-        return color != defaultColor;
+    public boolean isFullField(int row, int column) {
+        if (isValidRow(row) && isValidColumn(column)) {
+            return getField(row, column) != defaultColor;
+        }
+        return false;
     }
 
-    public Layer getMovedDownLayer() {
+    public Layer getMovedDown() {
         Layer layer = new Layer(this.getRowsCount(), this.getColumnsCount());
 
         for (int i = 0; i < this.getRowsCount() - 1; i++) {
             for (int j = 0; j < this.getColumnsCount(); j++) {
-                Color current = this.getField(i, j);
-                if (isFullField(current)) {
-                    layer.setField(i + 1, j, current);
+                if (isFullField(i, j)) {
+                    layer.setField(i + 1, j, getField(i, j));
                 }
             }
         }
@@ -140,20 +151,23 @@ public class Layer {
     }
 
     public boolean isOnBottom() {
-        for (Color field : fields[getRowsCount() - 1]) {
-            if (isFullField(field)) {
+        int bottomRow = getRowsCount() - 1;
+        for (int i = 0; i < getColumnsCount(); i++) {
+            if (isFullField(bottomRow, i)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public boolean isOnTop() {
-        for (Color field : fields[0]) {
-            if (isFullField(field)) {
+        int topRow = 0;
+        for (int i = 0; i < getColumnsCount(); i++) {
+            if (isFullField(topRow, i)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -176,6 +190,52 @@ public class Layer {
             }
         }
         return true;
+    }
+
+    public Layer getMovedRight() {
+        Layer moved = new Layer(getRowsCount(), getColumnsCount());
+        if (canMoveRight()) {
+            for (int i = 0; i < getRowsCount(); i++) {
+                for (int j = getColumnsCount() - 1; j >= 0; j--) {
+                    moved.setField(i, j + 1, this.getField(i, j));
+                }
+            }
+        }
+        return moved;
+    }
+
+    public boolean canMoveRight() {
+        for (int i = 0; i < getRowsCount(); i++) {
+            if (isFullField(i, getColumnsCount() - 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Layer getMovedLeft() {
+        Layer moved = new Layer(getRowsCount(), getColumnsCount());
+        if (canMoveLeft()) {
+            for (int i = 0; i < getRowsCount(); i++) {
+                for (int j = 1; j < getColumnsCount(); j++) {
+                    moved.setField(i, j - 1, getField(i, j));
+                }
+            }
+        }
+        return moved;
+    }
+
+    public boolean canMoveLeft() {
+        for (int i = 0; i < getRowsCount(); i++) {
+            if (isFullField(i, 0)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static public Color getDefaultColor() {
+        return Layer.defaultColor;
     }
 
 }
