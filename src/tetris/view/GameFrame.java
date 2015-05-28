@@ -136,7 +136,7 @@ public class GameFrame extends JFrame {
         gameBoard.updateField(row, column, color);
     }
 
-    public void updateNextField(boolean[][] nextBrick, Color color) {
+    public void updateNextFieldPanel(boolean[][] nextBrick, Color color) {
         int nextRows = nextBrick.length, nextColumns = nextBrick[0].length;
         for (int i = 0; i < MAX_BRICK_SIDE_VALUE; i++) {
             for (int j = 0; j < MAX_BRICK_SIDE_VALUE; j++) {

@@ -1,10 +1,12 @@
 package tetris.model;
 
 import java.awt.Color;
+import tetris.model.bricks.Brick;
 
 public class Layer {
 
     private final Color[][] fields;
+    private Brick brick;
     private static final Color defaultColor = Color.white;
 
     public Layer(int rowsCount, int columnsCount) {
@@ -14,6 +16,23 @@ public class Layer {
                 this.fields[i][j] = defaultColor;
             }
         }
+        this.brick = null;
+    }
+
+    private Layer(int rowsCount, int columnsCount, Brick brick) {
+        this(rowsCount, columnsCount);
+        this.brick = brick;
+    }
+
+    public void setBrick(Brick brick) {
+        this.brick = brick;
+        this.put(brick.getVariant(), brick.getColor());
+    }
+
+    public void rotate() {
+        this.reset();
+        brick.rotate();
+        this.put(brick.getVariant(), brick.getColor());
     }
 
     public int getRowsCount() {
@@ -96,10 +115,8 @@ public class Layer {
     }
 
     private void destroyLine(int row) {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < getColumnsCount(); j++) {
-                fields[i + 1][j] = fields[i][j];
-            }
+        for (int i = row - 1; i >= 0; i--) {
+            System.arraycopy(fields[i], 0, fields[i + 1], 0, getColumnsCount());
         }
         for (int i = 0; i < getColumnsCount(); i++) {
             fields[0][i] = defaultColor;
@@ -138,8 +155,7 @@ public class Layer {
     }
 
     public Layer getMovedDown() {
-        Layer layer = new Layer(this.getRowsCount(), this.getColumnsCount());
-
+        Layer layer = new Layer(getRowsCount(), getColumnsCount(), brick);
         for (int i = 0; i < this.getRowsCount() - 1; i++) {
             for (int j = 0; j < this.getColumnsCount(); j++) {
                 if (isFullField(i, j)) {
@@ -167,7 +183,6 @@ public class Layer {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -194,7 +209,7 @@ public class Layer {
 
     public Layer getMovedRight() {
         if (canMoveRight()) {
-            Layer moved = new Layer(getRowsCount(), getColumnsCount());
+            Layer moved = new Layer(getRowsCount(), getColumnsCount(), brick);
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = getColumnsCount() - 1; j >= 0; j--) {
                     moved.setField(i, j + 1, this.getField(i, j));
@@ -216,7 +231,7 @@ public class Layer {
 
     public Layer getMovedLeft() {
         if (canMoveLeft()) {
-            Layer moved = new Layer(getRowsCount(), getColumnsCount());
+            Layer moved = new Layer(getRowsCount(), getColumnsCount(), brick);
             for (int i = 0; i < getRowsCount(); i++) {
                 for (int j = 1; j < getColumnsCount(); j++) {
                     moved.setField(i, j - 1, getField(i, j));

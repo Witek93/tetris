@@ -40,7 +40,7 @@ public class GameController {
     private void generateNewBrick() {
         board.generateNewBrick();
         frame.addScore(50);
-        frame.updateNextField(board.getNextBrick(), board.getNextColor());
+        frame.updateNextFieldPanel(board.getNextBrick(), board.getNextColor());
     }
 
     private void updateBoard() {
@@ -56,20 +56,19 @@ public class GameController {
 
         @Override
         public void keyTyped(KeyEvent e) {
-
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    System.out.println("UP");
+                    board.rotateBrick();
                     break;
                 case KeyEvent.VK_DOWN:
                     board.moveDown();
                     break;
                 case KeyEvent.VK_LEFT:
-                    board.moveLeft();
+                    board.tryToMoveLeft();
                     break;
                 case KeyEvent.VK_RIGHT:
                     board.tryToMoveRight();
@@ -79,7 +78,6 @@ public class GameController {
 
         @Override
         public void keyReleased(KeyEvent e) {
-
         }
 
     }

@@ -47,11 +47,15 @@ public class GameBoard {
         }
     }
 
-    public void moveLeft() {
+    public void tryToMoveLeft() {
         Layer moved = activeLayer.getMovedLeft();
         if (!defaultLayer.overlapsWith(moved)) {
             activeLayer = moved;
         }
+    }
+
+    public void rotateBrick() {
+        activeLayer.rotate();
     }
 
     public int tryToDestroyLines() {
@@ -68,10 +72,7 @@ public class GameBoard {
 
     public void generateNewBrick() {
         activeLayer.reset();
-        activeLayer.put(nextBrick.getVariant(), nextBrick.getColor());
-
-        //generujemy nowy bloczek po dodaniu poprzedniego, aby móc wyświetlić
-        //go w panelu "Next"
+        activeLayer.setBrick(nextBrick);
         nextBrick = BrickFactory.create();
     }
 
