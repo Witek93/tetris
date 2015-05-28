@@ -15,9 +15,9 @@ public class SBrick extends Brick{
             {true,  true, false}
         },     
         {
-            {false, true },
+            {true,  false},
             {true,  true },
-            {true,  false}
+            {false, true }
         },
     };
     
