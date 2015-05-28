@@ -7,13 +7,12 @@ public class Layer {
 
     private final Color[][] fields;
     private Brick brick;
-    private static final Color defaultColor = Color.white;
 
     public Layer(int rowsCount, int columnsCount) {
         this.fields = new Color[rowsCount][columnsCount];
         for (int i = 0; i < rowsCount; i++) {
             for (int j = 0; j < columnsCount; j++) {
-                this.fields[i][j] = defaultColor;
+                this.fields[i][j] = Brick.DEFAULT_COLOR;
             }
         }
         this.brick = null;
@@ -26,12 +25,6 @@ public class Layer {
 
     public void setBrick(Brick brick) {
         this.brick = brick;
-        this.put(brick.getVariant(), brick.getColor());
-    }
-
-    public void rotate() {
-        this.reset();
-        brick.rotate();
         this.put(brick.getVariant(), brick.getColor());
     }
 
@@ -64,13 +57,13 @@ public class Layer {
         return column >= 0 && column < getColumnsCount();
     }
 
-    public void append(Layer layer) {
-        if (hasEqualSizeWith(layer)) {
-            for (int i = 0; i < getRowsCount(); i++) {
-                for (int j = 0; j < getColumnsCount(); j++) {
-                    if (layer.isFullField(i, j)) {
-                        setField(i, j, layer.getField(i, j));
-                    }
+    public void append(FallingBrick brick) {
+        int rowShift = brick.getRowShift();
+        int columnShift = brick.getColumnShift();
+        for (int i = rowShift; i < rowShift + brick.getHeight(); i++) {
+            for (int j = columnShift; j < columnShift + brick.getWidth(); j++) {
+                if (brick.isOccupied(i, j)) {
+                    this.setField(i, j, brick.getColor(i, j));
                 }
             }
         }
@@ -79,7 +72,7 @@ public class Layer {
     public void reset() {
         for (int i = 0; i < getRowsCount(); i++) {
             for (int j = 0; j < getColumnsCount(); j++) {
-                setField(i, j, defaultColor);
+                setField(i, j, Brick.DEFAULT_COLOR);
             }
         }
     }
@@ -107,7 +100,7 @@ public class Layer {
 
     private boolean isLineOfFullFields(int row) {
         for (int i = 0; i < getColumnsCount(); i++) {
-            if (!isFullField(row, i)) {
+            if (!isOccupied(row, i)) {
                 return false;
             }
         }
@@ -119,22 +112,14 @@ public class Layer {
             System.arraycopy(fields[i], 0, fields[i + 1], 0, getColumnsCount());
         }
         for (int i = 0; i < getColumnsCount(); i++) {
-            fields[0][i] = defaultColor;
+            fields[0][i] = Brick.DEFAULT_COLOR;
         }
     }
 
-    /*
-     returns false when some colors of two layers are overlapping each other.
-     returns false when layers' sizes are not equal
-     */
-    public boolean overlapsWith(Layer layer) {
-        if (!this.hasEqualSizeWith(layer)) {
-            return false;
-        }
-
+    public boolean overlapsWith(FallingBrick brick) {
         for (int i = 0; i < this.getRowsCount(); i++) {
             for (int j = 0; j < this.getColumnsCount(); j++) {
-                if (this.isFullField(i, j) && layer.isFullField(i, j)) {
+                if (this.isOccupied(i, j) && brick.isOccupied(i, j)) {
                     return true;
                 }
             }
@@ -147,9 +132,9 @@ public class Layer {
                 && getColumnsCount() == layer.getColumnsCount();
     }
 
-    public boolean isFullField(int row, int column) {
+    public boolean isOccupied(int row, int column) {
         if (isValidRow(row) && isValidColumn(column)) {
-            return getField(row, column) != defaultColor;
+            return getField(row, column) != Brick.DEFAULT_COLOR;
         }
         return false;
     }
@@ -158,7 +143,7 @@ public class Layer {
         Layer layer = new Layer(getRowsCount(), getColumnsCount(), brick);
         for (int i = 0; i < this.getRowsCount() - 1; i++) {
             for (int j = 0; j < this.getColumnsCount(); j++) {
-                if (isFullField(i, j)) {
+                if (isOccupied(i, j)) {
                     layer.setField(i + 1, j, getField(i, j));
                 }
             }
@@ -169,7 +154,7 @@ public class Layer {
     public boolean isOnBottom() {
         int bottomRow = getRowsCount() - 1;
         for (int i = 0; i < getColumnsCount(); i++) {
-            if (isFullField(bottomRow, i)) {
+            if (isOccupied(bottomRow, i)) {
                 return true;
             }
         }
@@ -179,7 +164,7 @@ public class Layer {
     public boolean isOnTop() {
         int topRow = 0;
         for (int i = 0; i < getColumnsCount(); i++) {
-            if (isFullField(topRow, i)) {
+            if (isOccupied(topRow, i)) {
                 return true;
             }
         }
@@ -222,7 +207,7 @@ public class Layer {
 
     public boolean canMoveRight() {
         for (int i = 0; i < getRowsCount(); i++) {
-            if (isFullField(i, getColumnsCount() - 1)) {
+            if (isOccupied(i, getColumnsCount() - 1)) {
                 return false;
             }
         }
@@ -244,7 +229,7 @@ public class Layer {
 
     public boolean canMoveLeft() {
         for (int i = 0; i < getRowsCount(); i++) {
-            if (isFullField(i, 0)) {
+            if (isOccupied(i, 0)) {
                 return false;
             }
         }
@@ -252,7 +237,7 @@ public class Layer {
     }
 
     static public Color getDefaultColor() {
-        return Layer.defaultColor;
+        return Brick.DEFAULT_COLOR;
     }
 
 }

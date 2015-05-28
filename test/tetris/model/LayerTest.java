@@ -3,6 +3,7 @@ package tetris.model;
 import java.awt.Color;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tetris.model.bricks.OBrick;
 
 public class LayerTest {
 
@@ -49,30 +50,6 @@ public class LayerTest {
     }
 
     @Test
-    public void testOverlapsWithEmptyLayers() {
-        Layer layer = new Layer(3, 5);
-        Layer instance = new Layer(3, 5);
-        boolean expResult = false;
-        boolean result = instance.overlapsWith(layer);
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testOverlapsWithExactLayers() {
-        Layer layer = new Layer(3, 5);
-        layer.setField(1, 2, Color.yellow);
-        layer.setField(2, 4, Color.yellow);
-
-        Layer instance = new Layer(3, 5);
-        instance.setField(1, 2, Color.yellow);
-        instance.setField(2, 4, Color.yellow);
-
-        boolean expResult = true;
-        boolean result = instance.overlapsWith(layer);
-        assertEquals(expResult, result);
-    }
-
-    @Test
     public void testGetFieldWithCorrectData() {
         Layer instance = new Layer(4, 4);
         Color result = instance.getField(0, 0);
@@ -112,21 +89,6 @@ public class LayerTest {
         boolean expResult = true;
         boolean result = instance.equals(obj);
         assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testAppend() {
-        Layer layerToAppend = new Layer(4, 4);
-        layerToAppend.setField(1, 1, Color.yellow);
-        Layer actual = new Layer(4, 4);
-        actual.setField(2, 1, Color.yellow);
-        actual.append(layerToAppend);
-
-        Layer expected = new Layer(4, 4);
-        expected.setField(1, 1, Color.yellow);
-        expected.setField(2, 1, Color.yellow);
-
-        assertEquals(expected, actual);
     }
 
     @Test
@@ -191,32 +153,25 @@ public class LayerTest {
     public void testOverlapsWith_isOverlapping() {
         Layer actual = new Layer(3, 3);
         actual.setField(1, 1, Color.yellow);
-        Layer instance = new Layer(3, 3);
-        instance.setField(1, 1, Color.red);
-        boolean result = instance.overlapsWith(actual);
+        FallingBrick brick = new FallingBrick();
+        brick.setBrick(new OBrick(), 3);
+        boolean result = actual.overlapsWith(brick);
+        System.out.println(actual.getField(1, 1));
+        System.out.println(brick.getColor(1, 1));
+        System.out.println(brick.getColor(2, 2));
         assertTrue(result);
-    }
-
-    @Test
-    public void testOverlapsWith_isNotOverlapping() {
-        Layer actual = new Layer(3, 3);
-        actual.setField(1, 1, Color.yellow);
-        Layer instance = new Layer(3, 3);
-        instance.setField(2, 1, Color.red);
-        boolean result = instance.overlapsWith(actual);
-        assertFalse(result);
     }
 
     public void testIsFullField_fieldIsFull() {
         Layer instance = new Layer(2, 2);
         instance.setField(1, 1, Color.yellow);
-        boolean result = instance.isFullField(1, 1);
+        boolean result = instance.isOccupied(1, 1);
         assertTrue(result);
     }
 
     public void testIsFullField_fieldIsEmpty() {
         Layer instance = new Layer(2, 2);
-        boolean result = instance.isFullField(1, 1);
+        boolean result = instance.isOccupied(1, 1);
         assertFalse(result);
     }
 

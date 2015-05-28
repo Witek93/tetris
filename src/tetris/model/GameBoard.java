@@ -6,13 +6,13 @@ import tetris.model.bricks.Brick;
 public class GameBoard {
 
     private final Layer defaultLayer;
-    private Layer activeLayer;
+    private final FallingBrick activeBrick;
     private Brick nextBrick;
 
     public GameBoard(int rowCount, int columnCount) {
         this.defaultLayer = new Layer(rowCount, columnCount);
-        this.activeLayer = new Layer(rowCount, columnCount);
         this.nextBrick = BrickFactory.create();
+        this.activeBrick = new FallingBrick();
     }
 
     public int getRowsCount() {
@@ -24,38 +24,50 @@ public class GameBoard {
     }
 
     public boolean moveDown() {
-        if (activeLayer.isOnBottom()) {
-            mergeLayers();
-            return false;
-        } else {
-            Layer layer = activeLayer.getMovedDown();
-
-            if (layer.overlapsWith(defaultLayer)) {
-                mergeLayers();
+        if (!activeBrick.isOnBottom(getRowsCount())) {
+            activeBrick.moveDown();
+            if (defaultLayer.overlapsWith(activeBrick)) {
+                activeBrick.moveUp();
+                mergeBrick();
                 return false;
-            } else {
-                activeLayer = layer;
-                return true;
             }
+            return true;
+        } else {
+            mergeBrick();
+            return false;
         }
+
+//        mergeBrick();
+//        if (activeLayer.isOnBottom()) {
+//            mergeLayers();
+//            return false;
+//        } else {
+//            Layer layer = activeLayer.getMovedDown();
+//
+//            if (layer.overlapsWith(defaultLayer)) {
+//                mergeLayers();
+//                return false;
+//            } else {
+//                activeLayer = layer;
+//                return true;
+//            }
+//        }
     }
 
     public void tryToMoveRight() {
-        Layer moved = activeLayer.getMovedRight();
-        if (!defaultLayer.overlapsWith(moved)) {
-            activeLayer = moved;
+        if (activeBrick.getColumnShift() + activeBrick.getWidth() < getColumnsCount()) {
+            activeBrick.moveRight();
         }
     }
 
     public void tryToMoveLeft() {
-        Layer moved = activeLayer.getMovedLeft();
-        if (!defaultLayer.overlapsWith(moved)) {
-            activeLayer = moved;
+        if (activeBrick.getColumnShift() > 0) {
+            activeBrick.moveLeft();
         }
     }
 
     public void rotateBrick() {
-        activeLayer.rotate();
+        activeBrick.rotate();
     }
 
     public int tryToDestroyLines() {
@@ -66,13 +78,12 @@ public class GameBoard {
         return destroyedLines;
     }
 
-    private void mergeLayers() {
-        defaultLayer.append(activeLayer);
+    private void mergeBrick() {
+        defaultLayer.append(activeBrick);
     }
 
     public void generateNewBrick() {
-        activeLayer.reset();
-        activeLayer.setBrick(nextBrick);
+        activeBrick.setBrick(nextBrick, getColumnsCount());
         nextBrick = BrickFactory.create();
     }
 
@@ -85,15 +96,16 @@ public class GameBoard {
     }
 
     public Color getColorOf(int row, int column) {
-        if (defaultLayer.isFullField(row, column)) {
+        if (defaultLayer.isOccupied(row, column)) {
             return defaultLayer.getField(row, column);
         } else {
-            return activeLayer.getField(row, column);
+            return activeBrick.getColor(row, column);
         }
     }
 
     public boolean isGameOver() {
-        return activeLayer.isOnTop();
+//        return activeBrick.getRowShift() == 0;
+        return false; //TODO
     }
 
 }

@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
     public GameFrame(int rowsCount, int columnsCount) {
         setTitle("Tetris game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(700, 900);
+        setSize(600, 700);
         setFocusable(true);
         setMinimumSize(new Dimension(500, 500));
         

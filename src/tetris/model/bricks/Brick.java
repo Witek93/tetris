@@ -5,6 +5,7 @@ import java.awt.Color;
 public abstract class Brick {
 
     private int rotation = 0;
+    static public Color DEFAULT_COLOR = Color.white;
 
     abstract boolean[][][] getVariants();
 
@@ -30,4 +31,12 @@ public abstract class Brick {
         return getColors();
     }
 
+    public Color getColor(int row, int column) {
+        if (row >= 0 && row < getHeight() && column >= 0 && column < getWidth()) {
+            if (getVariant()[row][column]) {
+                return getColors();
+            }
+        }
+        return DEFAULT_COLOR;
+    }
 }
