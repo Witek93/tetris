@@ -37,37 +37,31 @@ public class GameBoard {
             return false;
         }
 
-//        mergeBrick();
-//        if (activeLayer.isOnBottom()) {
-//            mergeLayers();
-//            return false;
-//        } else {
-//            Layer layer = activeLayer.getMovedDown();
-//
-//            if (layer.overlapsWith(defaultLayer)) {
-//                mergeLayers();
-//                return false;
-//            } else {
-//                activeLayer = layer;
-//                return true;
-//            }
-//        }
     }
 
     public void tryToMoveRight() {
-        if (activeBrick.getColumnShift() + activeBrick.getWidth() < getColumnsCount()) {
+        if (activeBrick.canMoveRight(getColumnsCount())) {
             activeBrick.moveRight();
+            if (defaultLayer.overlapsWith(activeBrick)) {
+                activeBrick.moveLeft();
+            }
         }
     }
 
     public void tryToMoveLeft() {
-        if (activeBrick.getColumnShift() > 0) {
+        if (activeBrick.canMoveLeft()) {
             activeBrick.moveLeft();
+            if (defaultLayer.overlapsWith(activeBrick)) {
+                activeBrick.moveRight();
+            }
         }
     }
 
     public void rotateBrick() {
         activeBrick.rotate();
+        if (defaultLayer.overlapsWith(activeBrick) || activeBrick.isBoundariesPassed(getColumnsCount())) {
+            activeBrick.rotateBack();
+        }
     }
 
     public int tryToDestroyLines() {
@@ -104,8 +98,7 @@ public class GameBoard {
     }
 
     public boolean isGameOver() {
-//        return activeBrick.getRowShift() == 0;
-        return false; //TODO
+        return activeBrick.getRowShift() == 0 && defaultLayer.overlapsWith(activeBrick);
     }
 
 }

@@ -15,6 +15,10 @@ public abstract class Brick {
         rotation = (rotation + 1) % getVariants().length;
     }
 
+    public void rotateBack() {
+        rotation = (getVariants().length + rotation - 1) % getVariants().length;
+    }
+
     public int getHeight() {
         return getVariant().length;
     }

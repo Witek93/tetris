@@ -4,6 +4,7 @@ import java.awt.Color;
 import tetris.model.bricks.Brick;
 
 public class FallingBrick {
+
     private int rowShift, columnShift;
     private Brick brick;
 
@@ -12,15 +13,19 @@ public class FallingBrick {
         this.columnShift = 0;
         this.brick = null;
     }
-    
+
     public void setBrick(Brick brick, int columnsCount) {
         this.brick = brick;
         this.columnShift = (columnsCount - brick.getVariant()[0].length) / 2;
         this.rowShift = 0;
     }
-    
+
     public void rotate() {
         brick.rotate();
+    }
+
+    public void rotateBack() {
+        brick.rotateBack();
     }
 
     public int getRowShift() {
@@ -30,41 +35,53 @@ public class FallingBrick {
     public int getColumnShift() {
         return columnShift;
     }
-    
+
     public void moveDown() {
         rowShift++;
     }
-    
+
     public void moveUp() {
         rowShift--;
     }
-    
+
     public void moveRight() {
         columnShift++;
     }
-    
+
     public void moveLeft() {
         columnShift--;
     }
-    
+
     public boolean isOnBottom(int rowsCount) {
         return rowsCount == this.rowShift + brick.getHeight();
     }
-    
-    public Color getColor(int row, int column) {
-        return brick.getColor(row - rowShift, column - columnShift);
-    }
-    
+
     public boolean isOccupied(int row, int column) {
         return getColor(row, column) != Brick.DEFAULT_COLOR;
     }
     
+    public boolean canMoveRight(int columnsCount) {
+        return getColumnShift() + getWidth() < columnsCount;
+    }
+    
+    public boolean canMoveLeft() {
+        return getColumnShift() > 0;
+    }
+    
+    public boolean isBoundariesPassed(int columnsCount) {
+        return (getColumnShift() < 0) || (getColumnShift() + getWidth() > columnsCount);
+    }
+
+    public Color getColor(int row, int column) {
+        return brick.getColor(row - rowShift, column - columnShift);
+    }
+
     public int getWidth() {
         return brick.getWidth();
     }
-    
+
     public int getHeight() {
         return brick.getHeight();
     }
-    
+
 }

@@ -24,7 +24,7 @@ public class GameController {
             generateNewBrick();
 
             while (board.moveDown()) {
-                Thread.sleep(100);
+                Thread.sleep(1000);
                 updateBoard();
             }
         }
@@ -74,6 +74,7 @@ public class GameController {
                     board.tryToMoveRight();
                     break;
             }
+            updateBoard();
         }
 
         @Override
