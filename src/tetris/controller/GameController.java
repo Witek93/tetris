@@ -4,16 +4,19 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import tetris.model.GameBoard;
+import tetris.model.Score;
 import tetris.view.GameFrame;
 
 public class GameController {
 
     private final GameBoard board;
     private final GameFrame frame;
+    private final Score score;
 
     public GameController(GameBoard board, GameFrame frame) {
         this.board = board;
         this.frame = frame;
+        this.score = new Score();
         frame.setKeyListener(new ArrowKeysListener());
     }
 
@@ -22,28 +25,34 @@ public class GameController {
 
             destroyLines();
             generateNewBrick();
+            updateBoardView();
 
             while (board.moveDown()) {
                 Thread.sleep(1000);
-                updateBoard();
+                updateBoardView();
             }
+
         }
         frame.gameOverAlert();
     }
-
+    
     private void destroyLines() {
-        int destroyedLines = board.tryToDestroyLines();
-        frame.addScore(destroyedLines * 1000);
-        frame.addDestroyedLines(destroyedLines);
+        while(board.tryToDestroyLine()) {
+            score.incrementLines();
+            frame.setDestroyedLines(score.getLinesValue());
+            score.addPoints(1000);
+            frame.setScore(score.getPointsValue());
+        }
     }
 
     private void generateNewBrick() {
-        board.generateNewBrick();
-        frame.addScore(50);
+        board.nextBrick();
+        score.addPoints(50);
+        frame.setScore(score.getPointsValue());
         frame.updateNextFieldPanel(board.getNextBrick(), board.getNextColor());
     }
 
-    private void updateBoard() {
+    private void updateBoardView() {
         for (int i = 0; i < board.getRowsCount(); i++) {
             for (int j = 0; j < board.getColumnsCount(); j++) {
                 Color color = board.getColorOf(i, j);
@@ -74,7 +83,7 @@ public class GameController {
                     board.tryToMoveRight();
                     break;
             }
-            updateBoard();
+            updateBoardView();
         }
 
         @Override

@@ -10,7 +10,7 @@ public class Tetris {
 
     public static void main(String[] args) throws InterruptedException {
 
-        int rows = 30, column = 13;
+        int rows = 20, column = 6;
         
         GameFrame view = new GameFrame(rows, column);
         view.setVisible(true);

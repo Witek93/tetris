@@ -14,14 +14,21 @@ public class FallingBrick {
         this.brick = null;
     }
 
-    public void setBrick(Brick brick, int columnsCount) {
+    public void setBrick(Brick brick, int columnShift) {
         this.brick = brick;
-        this.columnShift = (columnsCount - brick.getVariant()[0].length) / 2;
+        this.columnShift = columnShift;
         this.rowShift = 0;
     }
-
-    public void rotate() {
+    
+    public void rotate(int columnsCount) {
         brick.rotate();
+        if(isBoundariesPassed(columnsCount)) {
+            brick.rotateBack();
+        }
+    }
+        
+    private boolean isBoundariesPassed(int columnsCount) {
+        return (getColumnShift() < 0) || (getColumnShift() + getWidth() > columnsCount);
     }
 
     public void rotateBack() {
@@ -67,10 +74,7 @@ public class FallingBrick {
     public boolean canMoveLeft() {
         return getColumnShift() > 0;
     }
-    
-    public boolean isBoundariesPassed(int columnsCount) {
-        return (getColumnShift() < 0) || (getColumnShift() + getWidth() > columnsCount);
-    }
+
 
     public Color getColor(int row, int column) {
         return brick.getColor(row - rowShift, column - columnShift);

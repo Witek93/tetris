@@ -29,9 +29,9 @@ public class GameFrame extends JFrame {
         setSize(600, 700);
         setFocusable(true);
         setMinimumSize(new Dimension(500, 500));
-        
+
         this.score = createBigLabel("0");
-        this.linesDestroyed = createBigLabel("0"); 
+        this.linesDestroyed = createBigLabel("0");
         this.startButton = new JButton("START");
         this.pauseButton = new JButton("PAUSE");
 
@@ -50,45 +50,39 @@ public class GameFrame extends JFrame {
         this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);
         nextPanel.add(nextBoard, BorderLayout.CENTER);
         eastPanel.add(nextPanel);
-        
+
         this.scorePanel = createScorePanel();
         eastPanel.add(scorePanel);
 
         this.optionPanel = createOptionPanel();
         eastPanel.add(optionPanel);
     }
-    
-    
-    public void addScore(int value) {
-        long currentScore = Long.parseLong(score.getText());
-        long newScore = currentScore + value;
-        score.setText(String.valueOf(newScore));
+
+    public void setScore(String newScore) {
+        score.setText(newScore);
     }
-    
-    public void addDestroyedLines(int value) {
-        long currentLines = Long.parseLong(linesDestroyed.getText());
-        long totalLinesDestroyed = currentLines + value;
-        linesDestroyed.setText(String.valueOf(totalLinesDestroyed));
+
+    public void setDestroyedLines(String newDestroyedLines) {
+        linesDestroyed.setText(newDestroyedLines);
     }
-    
+
     public void addStartListener(ActionListener listener) {
         startButton.addActionListener(listener);
     }
-    
+
     public void addPauseListener(ActionListener listener) {
         pauseButton.addActionListener(listener);
     }
-    
 
     private JPanel createNextPanel() {
         JPanel panel = new JPanel();
         panel.setBorder(new LineBorder(Color.black, 3));
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.lightGray);
-        
+
         JLabel label = createBigLabel("NEXT");
         panel.add(label, BorderLayout.NORTH);
-        
+
         return panel;
     }
 
@@ -97,17 +91,17 @@ public class GameFrame extends JFrame {
         panel.setBorder(new LineBorder(Color.black, 3));
         panel.setBackground(Color.white);
         panel.setLayout(new GridLayout(4, 1));
-        
+
         JLabel pointsLabel = createBigLabel("POINTS");
         panel.add(pointsLabel);
-        
+
         panel.add(score);
-        
+
         JLabel linesLabel = createBigLabel("LINES DESTROYED");
         panel.add(linesLabel);
-        
+
         panel.add(this.linesDestroyed);
-        
+
         return panel;
     }
 
@@ -115,16 +109,16 @@ public class GameFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setBorder(new LineBorder(Color.black, 3));
         panel.setLayout(new GridLayout(2, 1));
-        
+
         panel.add(startButton);
         startButton.setFont(new Font("Serif", Font.PLAIN, 32));
-        
+
         panel.add(pauseButton);
         pauseButton.setFont(new Font("Serif", Font.PLAIN, 32));
-        
+
         return panel;
     }
-    
+
     private JLabel createBigLabel(String text) {
         JLabel label = new JLabel(text, JLabel.CENTER);
         label.setBorder(new LineBorder(Color.black, 1));
@@ -153,7 +147,7 @@ public class GameFrame extends JFrame {
             }
         }
     }
-    
+
     public void setKeyListener(KeyListener listener) {
         this.addKeyListener(listener);
     }
