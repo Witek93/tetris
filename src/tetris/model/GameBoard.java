@@ -23,20 +23,16 @@ public class GameBoard {
         return defaultLayer.getColumnsCount();
     }
 
-    public boolean moveDown() {
-        if (!activeBrick.isOnBottom(getRowsCount())) {
+    public boolean tryToMoveDown() {
+        if (activeBrick.canMoveDown(getRowsCount())) {
             activeBrick.moveDown();
             if (!isValidState()) {
                 activeBrick.moveUp();
-                mergeBrick();
-                return false;
+            } else {
+                return true;
             }
-            return true;
-        } else {
-            mergeBrick();
-            return false;
         }
-
+        return false;
     }
 
     public void tryToMoveRight() {
@@ -57,7 +53,7 @@ public class GameBoard {
         }
     }
 
-    public void rotateBrick() {
+    public void tryToRotate() {
         activeBrick.rotate(getColumnsCount());
         if (!isValidState()) {
             activeBrick.rotateBack();
@@ -67,16 +63,8 @@ public class GameBoard {
     public boolean tryToDestroyLine() {
         return defaultLayer.tryToDestroyLine();
     }
-    
-    public int tryToDestroyLines() {
-        int destroyedLines = 0;
-        while (defaultLayer.tryToDestroyLine()) {
-            destroyedLines++;
-        }
-        return destroyedLines;
-    }
 
-    private void mergeBrick() {
+    public void mergeBrick() {
         defaultLayer.append(activeBrick);
     }
 

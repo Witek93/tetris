@@ -59,8 +59,8 @@ public class FallingBrick {
         columnShift--;
     }
 
-    public boolean isOnBottom(int rowsCount) {
-        return rowsCount == this.rowShift + brick.getHeight();
+    public boolean canMoveDown(int rowsCount) {
+        return rowsCount > this.rowShift + brick.getHeight();
     }
 
     public boolean isOccupied(int row, int column) {

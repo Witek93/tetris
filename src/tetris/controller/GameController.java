@@ -27,11 +27,13 @@ public class GameController {
             generateNewBrick();
             updateBoardView();
 
-            while (board.moveDown()) {
+            while (board.tryToMoveDown()) {
                 Thread.sleep(1000);
                 updateBoardView();
             }
-
+            
+            board.mergeBrick();
+            
         }
         frame.gameOverAlert();
     }
@@ -71,10 +73,10 @@ public class GameController {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
-                    board.rotateBrick();
+                    board.tryToRotate();
                     break;
                 case KeyEvent.VK_DOWN:
-                    board.moveDown();
+                    board.tryToMoveDown();
                     break;
                 case KeyEvent.VK_LEFT:
                     board.tryToMoveLeft();
