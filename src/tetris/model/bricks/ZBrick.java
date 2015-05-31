@@ -22,7 +22,7 @@ public class ZBrick extends Brick{
     };
     
     @Override
-    Color getColors() {
+    public Color getColor() {
         return new Color(213, 173, 66);
     }
 }
