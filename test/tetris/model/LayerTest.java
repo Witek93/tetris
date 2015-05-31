@@ -154,7 +154,7 @@ public class LayerTest {
         Layer actual = new Layer(3, 3);
         actual.setField(1, 1, Color.yellow);
         FallingBrick brick = new FallingBrick();
-        brick.setBrick(new OBrick(), 3);
+        brick.setBrick(new OBrick(), 1);
         boolean result = actual.overlapsWith(brick);
         System.out.println(actual.getField(1, 1));
         System.out.println(brick.getColor(1, 1));

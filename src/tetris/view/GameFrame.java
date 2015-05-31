@@ -19,51 +19,62 @@ public class GameFrame extends JFrame {
     private static final int MAX_BRICK_SIDE_VALUE = 4;
 
     private final BoardPanel gameBoard, nextBoard;
-    private final JPanel scorePanel, nextPanel, optionPanel;
-    private final JLabel score, linesDestroyed;
+    private final JPanel scorePanel, nextBrickPanel, buttonsPanel, optionsPanel;
+    private final JLabel pointsLabel, linesLabel;
     private final JButton startButton, pauseButton;
 
     public GameFrame(int rowsCount, int columnsCount) {
+        this.gameBoard = new BoardPanel(rowsCount, columnsCount);
+        
+        this.optionsPanel = new JPanel();
+        
+        this.nextBrickPanel = new JPanel();
+        this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);
+        
+        this.scorePanel = new JPanel();
+        this.pointsLabel = createBigLabel("0");
+        this.linesLabel = createBigLabel("0");
+        
+        this.buttonsPanel = new JPanel();
+        this.startButton = new JButton("START");
+        this.pauseButton = new JButton("PAUSE");
+        
+        
+        initGameFrame();
+        initOptionsPanel();
+        initNextBrickPanel();
+        initScorePanel();
+        initButtonsPanel();
+
+
+    }
+
+    private void initGameFrame() {
         setTitle("Tetris game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600, 700);
         setFocusable(true);
         setMinimumSize(new Dimension(500, 500));
-
-        this.score = createBigLabel("0");
-        this.linesDestroyed = createBigLabel("0");
-        this.startButton = new JButton("START");
-        this.pauseButton = new JButton("PAUSE");
-
-        this.gameBoard = new BoardPanel(rowsCount, columnsCount);
-        gameBoard.setBackground(Color.red);
         gameBoard.setBorder(new LineBorder(Color.black, 3, true));
         add(gameBoard, BorderLayout.CENTER);
+        add(optionsPanel, BorderLayout.EAST);
+    }
 
-        JPanel eastPanel = new JPanel();
-        eastPanel.setLayout(new GridLayout(3, 1));
-        eastPanel.setBackground(Color.black);
-        eastPanel.setPreferredSize(new Dimension(300, 600));
-        add(eastPanel, BorderLayout.EAST);
-
-        this.nextPanel = createNextPanel();
-        this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);
-        nextPanel.add(nextBoard, BorderLayout.CENTER);
-        eastPanel.add(nextPanel);
-
-        this.scorePanel = createScorePanel();
-        eastPanel.add(scorePanel);
-
-        this.optionPanel = createOptionPanel();
-        eastPanel.add(optionPanel);
+    private void initOptionsPanel() {
+        optionsPanel.setLayout(new GridLayout(3, 1));
+        optionsPanel.setPreferredSize(new Dimension(300, 600));
+        
+        optionsPanel.add(nextBrickPanel);
+        optionsPanel.add(scorePanel);
+        optionsPanel.add(buttonsPanel);
     }
 
     public void setScore(String newScore) {
-        score.setText(newScore);
+        pointsLabel.setText(newScore);
     }
 
     public void setDestroyedLines(String newDestroyedLines) {
-        linesDestroyed.setText(newDestroyedLines);
+        linesLabel.setText(newDestroyedLines);
     }
 
     public void addStartListener(ActionListener listener) {
@@ -74,49 +85,39 @@ public class GameFrame extends JFrame {
         pauseButton.addActionListener(listener);
     }
 
-    private JPanel createNextPanel() {
-        JPanel panel = new JPanel();
-        panel.setBorder(new LineBorder(Color.black, 3));
-        panel.setLayout(new BorderLayout());
-        panel.setBackground(Color.lightGray);
+    private void initNextBrickPanel() {
+        nextBrickPanel.setBorder(new LineBorder(Color.black, 3));
+        nextBrickPanel.setLayout(new BorderLayout());
+        nextBrickPanel.setBackground(Color.lightGray);
 
         JLabel label = createBigLabel("NEXT");
-        panel.add(label, BorderLayout.NORTH);
-
-        return panel;
+        nextBrickPanel.add(label, BorderLayout.NORTH);
+        nextBrickPanel.add(nextBoard, BorderLayout.CENTER);
     }
 
-    private JPanel createScorePanel() {
-        JPanel panel = new JPanel();
-        panel.setBorder(new LineBorder(Color.black, 3));
-        panel.setBackground(Color.white);
-        panel.setLayout(new GridLayout(4, 1));
+    private void initScorePanel() {
+        scorePanel.setBorder(new LineBorder(Color.black, 3));
+        scorePanel.setBackground(Color.white);
+        scorePanel.setLayout(new GridLayout(4, 1));
 
-        JLabel pointsLabel = createBigLabel("POINTS");
-        panel.add(pointsLabel);
+        JLabel pointsLabelDescription = createBigLabel("POINTS");
+        JLabel linesLabelDescription = createBigLabel("LINES DESTROYED");
 
-        panel.add(score);
-
-        JLabel linesLabel = createBigLabel("LINES DESTROYED");
-        panel.add(linesLabel);
-
-        panel.add(this.linesDestroyed);
-
-        return panel;
+        scorePanel.add(pointsLabelDescription);
+        scorePanel.add(this.pointsLabel);
+        scorePanel.add(linesLabelDescription);
+        scorePanel.add(this.linesLabel);
     }
 
-    private JPanel createOptionPanel() {
-        JPanel panel = new JPanel();
-        panel.setBorder(new LineBorder(Color.black, 3));
-        panel.setLayout(new GridLayout(2, 1));
+    private void initButtonsPanel() {
+        buttonsPanel.setBorder(new LineBorder(Color.black, 3));
+        buttonsPanel.setLayout(new GridLayout(2, 1));
 
-        panel.add(startButton);
         startButton.setFont(new Font("Serif", Font.PLAIN, 32));
-
-        panel.add(pauseButton);
         pauseButton.setFont(new Font("Serif", Font.PLAIN, 32));
-
-        return panel;
+        
+        buttonsPanel.add(startButton);
+        buttonsPanel.add(pauseButton);
     }
 
     private JLabel createBigLabel(String text) {
