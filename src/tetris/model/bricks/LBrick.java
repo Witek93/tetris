@@ -32,6 +32,6 @@ public class LBrick extends Brick{
     
     @Override
     Color getColors() {
-        return new Color(233, 107, 57);
+        return new Color(255, 191, 0);
     }
 }

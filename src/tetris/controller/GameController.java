@@ -28,7 +28,7 @@ public class GameController {
             updateBoardView();
 
             while (board.tryToMoveDown()) {
-                Thread.sleep(1000);
+                updateTime();
                 updateBoardView();
             }
             
@@ -36,6 +36,24 @@ public class GameController {
             
         }
         frame.gameOverAlert();
+    }
+    
+    private void updateTime() throws InterruptedException{
+        int destroyedLines = Integer.parseInt(score.getLinesValue());
+        if(destroyedLines<=5 )
+            Thread.sleep(1000);
+        else if(destroyedLines>5 && destroyedLines<=10 )
+            Thread.sleep(900);
+        else if(destroyedLines>10 && destroyedLines<=15 )
+            Thread.sleep(800);
+        else if(destroyedLines>15 && destroyedLines<=20 )
+            Thread.sleep(700);
+        else if(destroyedLines>20 && destroyedLines<=25 )
+            Thread.sleep(600);
+        else if(destroyedLines>25 && destroyedLines<=30 )
+            Thread.sleep(500);
+        else
+            Thread.sleep(300);
     }
     
     private void destroyLines() {
