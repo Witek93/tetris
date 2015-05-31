@@ -9,7 +9,7 @@ public abstract class Brick {
 
     abstract boolean[][][] getVariants();
 
-    abstract Color getColors();
+    public abstract Color getColor();
 
     public void rotate() {
         rotation = (rotation + 1) % getVariants().length;
@@ -31,14 +31,10 @@ public abstract class Brick {
         return getVariants()[rotation];
     }
 
-    public Color getColor() {
-        return getColors();
-    }
-
     public Color getColor(int row, int column) {
         if (row >= 0 && row < getHeight() && column >= 0 && column < getWidth()) {
             if (getVariant()[row][column]) {
-                return getColors();
+                return getColor();
             }
         }
         return DEFAULT_COLOR;

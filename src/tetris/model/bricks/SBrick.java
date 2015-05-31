@@ -22,7 +22,7 @@ public class SBrick extends Brick{
     };
     
     @Override
-    Color getColors() {
+    public Color getColor() {
         return new Color(195, 176, 145);
     }
 }

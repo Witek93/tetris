@@ -31,7 +31,7 @@ public class JBrick extends Brick{
     };
     
     @Override
-    Color getColors() {
+    public Color getColor() {
         return new Color(249, 224, 75);
     }
 }

@@ -17,7 +17,7 @@ public class OBrick extends Brick{
     };
     
     @Override
-    Color getColors() {
+    public Color getColor() {
         return new Color(115, 84, 47);
     }
 }
