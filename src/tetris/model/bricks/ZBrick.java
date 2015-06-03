@@ -5,7 +5,7 @@ import java.awt.Color;
 public class ZBrick extends Brick{
 
     @Override
-    boolean[][][] getVariants() {
+    protected boolean[][][] getVariants() {
         return VARIANTS;
     }
     

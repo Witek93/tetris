@@ -6,7 +6,7 @@ import java.awt.Color;
 public class TBrick extends Brick {
 
     @Override
-    boolean[][][] getVariants() {
+    protected boolean[][][] getVariants() {
         return VARIANTS;
     }
         private static final boolean[][][] VARIANTS = {

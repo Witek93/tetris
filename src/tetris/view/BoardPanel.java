@@ -11,9 +11,7 @@ public class BoardPanel extends JPanel {
     private final JPanel[][] fields;
     
     public BoardPanel(int rowsCount, int columnsCount) {
-        this.fields = new JPanel[rowsCount][columnsCount];
-        setLayout(new GridLayout());
-        
+        this.fields = new JPanel[rowsCount][columnsCount];       
         setLayout(new GridLayout(rowsCount, columnsCount, 1, 1));
         
         for(int i = 0; i < rowsCount; i++) {

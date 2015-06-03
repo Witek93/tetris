@@ -7,7 +7,7 @@ public abstract class Brick {
     private int rotation = 0;
     static public Color DEFAULT_COLOR = Color.white;
 
-    abstract boolean[][][] getVariants();
+    protected abstract boolean[][][] getVariants();
 
     public abstract Color getColor();
 

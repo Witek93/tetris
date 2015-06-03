@@ -24,29 +24,22 @@ public class GameFrame extends JFrame {
     private final JButton startButton, pauseButton;
 
     public GameFrame(int rowsCount, int columnsCount) {
-        this.gameBoard = new BoardPanel(rowsCount, columnsCount);
-        
+        this.gameBoard = new BoardPanel(rowsCount, columnsCount);    
         this.optionsPanel = new JPanel();
-        
         this.nextBrickPanel = new JPanel();
-        this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);
-        
+        this.nextBoard = new BoardPanel(MAX_BRICK_SIDE_VALUE, MAX_BRICK_SIDE_VALUE);        
         this.scorePanel = new JPanel();
         this.pointsLabel = createBigLabel("0");
-        this.linesLabel = createBigLabel("0");
-        
+        this.linesLabel = createBigLabel("0");       
         this.buttonsPanel = new JPanel();
         this.startButton = new JButton("START");
         this.pauseButton = new JButton("PAUSE");
-        
-        
+
         initGameFrame();
         initOptionsPanel();
         initNextBrickPanel();
         initScorePanel();
         initButtonsPanel();
-
-
     }
 
     private void initGameFrame() {

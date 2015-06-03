@@ -5,7 +5,7 @@ import java.awt.Color;
 public class IBrick extends Brick{
 
     @Override
-    boolean[][][] getVariants() {
+    protected boolean[][][] getVariants() {
         return VARIANTS;
     }
     
@@ -18,7 +18,7 @@ public class IBrick extends Brick{
             {true},
             {true},
             {true}
-        },
+        }
     };
 
     @Override
